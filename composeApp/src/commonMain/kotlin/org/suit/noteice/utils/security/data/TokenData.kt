@@ -21,28 +21,22 @@ object TokenDataSerializer: Serializer<TokenData> {
     override val defaultValue: TokenData
         get() = TokenData()
 
-    override suspend fun readFrom(input: InputStream): TokenData {
-        println("reading")
-        val encryptedBytes = withContext(Dispatchers.IO) {
-            input.use { it.readBytes() }
-        }
+    override suspend fun readFrom(input: InputStream): TokenData = withContext(Dispatchers.IO) {
+        val encryptedBytes = input.use { it.readBytes() }
         val encryptedBytesDecoded = Base64.getDecoder().decode(encryptedBytes)
         val decryptedBytes = Crypto.decrypt(encryptedBytesDecoded)
         val decodedJsonString = decryptedBytes.decodeToString()
-        return Json.decodeFromString(decodedJsonString)
+        Json.decodeFromString(decodedJsonString)
     }
 
-    override suspend fun writeTo(t: TokenData, output: OutputStream) {
-        println("writing")
+    override suspend fun writeTo(t: TokenData, output: OutputStream) = withContext(Dispatchers.IO) {
         val json = Json.encodeToString(t)
         val bytes = json.toByteArray()
         val encryptedBytes = Crypto.encrypt(bytes)
         // avoid "certain" crashes by encoding bytes to base64
         val encryptedBytesBase64 = Base64.getEncoder().encode(encryptedBytes)
-        withContext(Dispatchers.IO) {
-            output.use {
-                it.write(encryptedBytesBase64)
-            }
+        output.use {
+            it.write(encryptedBytesBase64)
         }
     }
 }

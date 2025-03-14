@@ -46,10 +46,10 @@ fun AuthColumn(
     onAuthTypeChange: () -> Unit
 ) {
     var email by rememberSaveable {
-        mutableStateOf("mokiczena@gmail.com")
+        mutableStateOf("")
     }
     var password by rememberSaveable {
-        mutableStateOf("Geny2005$")
+        mutableStateOf("")
     }
     BackHandler(authType is AuthType.SignUp) {
         onAuthTypeChange()

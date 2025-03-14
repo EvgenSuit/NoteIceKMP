@@ -69,7 +69,7 @@ class AuthClientImpl(
             }
         }
         defaultRequest {
-            url("http://127.0.0.1:8080/noteice/auth/")
+            url(BASE_AUTH_URL)
         }
     }
 
@@ -94,7 +94,6 @@ class AuthClientImpl(
                 }
                 setBody(authRequest)
             }
-            println(tokenData.bodyAsText())
             tokensManager.saveTokenData(tokenData.body<TokenData>())
         }
     }

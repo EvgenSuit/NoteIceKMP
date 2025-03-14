@@ -1,3 +1,4 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
@@ -8,6 +9,13 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.build.config)
+}
+
+buildConfig {
+    val localProperties = gradleLocalProperties(rootDir, providers)
+    buildConfigField("String", "CRYPTO_KEYSTORE_PASSWORD", localProperties.getProperty("CRYPTO_KEYSTORE_PASSWORD"))
+    buildConfigField("String", "CRYPTO_KEY_PASSWORD", localProperties.getProperty("CRYPTO_KEY_PASSWORD"))
 }
 
 kotlin {

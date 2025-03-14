@@ -83,7 +83,6 @@ class NotesViewModel(
                 } else {
                     savedNote = notesRepository.editNote(currNote)
                 }
-                println(savedNote)
                 _uiState.update { it.copy(notes =
                 (if (!it.notes.map { it.id }.contains(savedNote.id)) it.notes + savedNote
                 else it.notes.map { if (it.id == savedNote.id) savedNote else it })

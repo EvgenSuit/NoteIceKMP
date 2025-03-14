@@ -44,7 +44,6 @@ fun EditNoteSheet(
     onDismiss: () -> Unit,
     onValueChange: (NoteInputData) -> Unit
 ) {
-    println("Showing note: $note")
     ModalBottomSheet(
         sheetState = sheetState,
         onDismissRequest = onDismiss) {

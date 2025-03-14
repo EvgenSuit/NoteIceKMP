@@ -53,7 +53,6 @@ actual object Crypto: CryptoInterface {
         return iv + encrypted
     }
     override fun decrypt(bytes: ByteArray): ByteArray {
-        println("Decrypt. ${getKey().encoded}")
         val iv = bytes.copyOfRange(0, cipher.blockSize)
         val data = bytes.copyOfRange(cipher.blockSize, bytes.size)
         cipher.init(Cipher.DECRYPT_MODE, getKey(), IvParameterSpec(iv))
